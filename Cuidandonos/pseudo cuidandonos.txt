@@ -1,0 +1,50 @@
+Pseudo_Codigo Cuidandonos
+
+public Class Destino{
+	private String direccActual;
+	private String direccDestino;
+	private LocalDateTime horaDePartida;
+
+	public Integer calcularDistancia(String direccActual, String direccDestino){
+		return distancia;
+	}
+
+	public LocalDateTime horaDeLlegada(){
+		return horaDeLlegada;
+	}
+}
+
+public Class Transeunte{
+	private String name;
+	private String direccionActual;
+	private String edad;
+	private String sexo;
+	private List<Cuidador> cuidadoresApproved;
+	
+	public static Destino irADestino(String direccionActual, String direccionDestino, List<Cuidador> cuidadores){
+
+		// Se le notifica a los cuidadores que una persona requiere de sus cuidados y deciden si acudir o no
+			
+		cuidadoresApproved = cuidadores.filter(cuidador -> cuidador.puedeAcompaniar());
+				
+		if(!cuidadoresApproved.isEmpty()){
+			Destino destino = new Destino(direccionActual, direccionDestino, now);
+			
+			cuidadoresApproved.each(cuidador -> cuidador.notificarDestino(destino));
+			
+			return destino;
+		}
+	}
+
+	public static Void comenzarViaje(Destino destino){
+		cuidadoresApproved.notificarTiempo(destino.horaDeLlegada());
+		
+		//TODO: Desactivar notificaciones al transeunte			
+	}
+
+	public static Boolean llegoBien(Destino destino){
+		cuidadoresApproved.notificarLlegada()
+		
+		
+	}
+}
