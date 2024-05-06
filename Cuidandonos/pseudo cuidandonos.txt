@@ -1,12 +1,13 @@
-Pseudo_Codigo Cuidandonos
+// PSEUDO CALCULO DEMORA PUNTO A PUNTO 
 
-public Class Destino{
+public Class Trayecto{
 	private String direccActual;
 	private String direccDestino;
 	private LocalDateTime horaDePartida;
+	private IAdapterDistanceMatrixAPI adapterDistanceMatrixAPI;
 
-	public Integer calcularDistancia(String direccActual, String direccDestino){
-		return distancia;
+	public Integer calcularDistancia(){
+		return adapterDistanceMatrixAPI.calcularDistancia(direccActual, direccDestino);
 	}
 
 	public LocalDateTime horaDeLlegada(){
@@ -14,37 +15,43 @@ public Class Destino{
 	}
 }
 
-public Class Transeunte{
-	private String name;
-	private String direccionActual;
-	private String edad;
-	private String sexo;
-	private List<Cuidador> cuidadoresApproved;
-	
-	public static Destino irADestino(String direccionActual, String direccionDestino, List<Cuidador> cuidadores){
+public Class GestorDeCalculo{
 
-		// Se le notifica a los cuidadores que una persona requiere de sus cuidados y deciden si acudir o no
-			
-		cuidadoresApproved = cuidadores.filter(cuidador -> cuidador.puedeAcompaniar());
-				
-		if(!cuidadoresApproved.isEmpty()){
-			Destino destino = new Destino(direccionActual, direccionDestino, now);
-			
-			cuidadoresApproved.each(cuidador -> cuidador.notificarDestino(destino));
-			
-			return destino;
+	// PSEUDO CALCULO DEMORA POR N MINUTOS DE ESPERA
+
+	public List<LocalDateTime> calcularDemoraNMinutos(List<Trayecto> trayectos){
+		LocalDateTime demora;
+		List<LocalDateTime> tiemposDeDemoras;		
+		
+		// En este for tomamos la hora de partida de B->C y le restamos la hora de llegada de A->B para 
+		// poder ver el tiempo que se demoro entre la llegada y la partida hacia el otro punto
+		
+		for(int i = 0; i <= trayectos.size(); i++){
+			demora = trayectos.get(i+1).horaDePartida.minusHours(trayectos.get(i).horaDeLlegada());
+			tiemposDeDemoras.add(demora);
+			i++;
 		}
+		return tiemposDeDemoras;
 	}
 
-	public static Void comenzarViaje(Destino destino){
-		cuidadoresApproved.notificarTiempo(destino.horaDeLlegada());
-		
-		//TODO: Desactivar notificaciones al transeunte			
-	}
 
-	public static Boolean llegoBien(Destino destino){
-		cuidadoresApproved.notificarLlegada()
+	// PSEUDO CALCULO DEMORA PUNTO A PUNTO 
+
+	public LocalDateTime calcularDemoraPuntoAPunto(List<Trayecto> trayectos){
+		LocalDateTime acumuladorDemora;
 		
+		// En este for tomamos la hora de partida de B->C y le restamos la hora de llegada de A->B y vamos sumando
+		// por cada iteracion del for en nuestra variable acumuladora para cuando llegue al ultimo destino poder
+		// visualizar cuanto fue el tiempo total que se demoro
 		
+		for(int i = 0; i <= trayectos.size(); i++){
+			acumuladorDemora += trayectos.get(i+1).horaDePartida.minusHours(trayectos.get(i).horaDeLlegada());
+			i++;
+		}
+		return acumuladorDemora;
 	}
 }
+
+
+
+
